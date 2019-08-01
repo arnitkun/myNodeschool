@@ -1,25 +1,32 @@
-var _ = require('lodash');
-var http = require('http');
-var url1 = process.argv[2],
-    url2 = process.argv[3],
-    url3 = process.argv[4];
+var http = require('http')
+var bl = require('bl')
+var results = []
+var count = 0
 
-var urls = [];
-urls.push(url1, url2, url3);
-console.log(urls);
+function printResults () {
+  for (var i = 0; i < 3; i++) {
+    console.log(results[i])
+  }
+}
 
-_.forEach(urls,  function(url){
-    http.get(url, callback)
-});
+function httpGet (index) {
+  http.get(process.argv[2 + index], function (response) {
+    response.pipe(bl(function (err, data) {
+      if (err) {
+        return console.error(err)
+      }
 
-function callback(response){
-    response = response.setEncoding('utf8');
-    
-    response.on('error', function (err){
-        console.error(err);
-    });
+      results[index] = data.toString()
+    //   console.log(data);
+      count++
 
-    response.on('data', function(data){
-        console.log(data);
-    });
+      if (count === 3) {
+        printResults()
+      }
+    }))
+  })
+}
+
+for (var i = 0; i < 3; i++) {
+  httpGet(i)
 }
