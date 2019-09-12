@@ -7,7 +7,12 @@
     "test": "test"
   },
   "dependencies": {
-    "lodash": "^4.17.15"
+    "async": "^3.1.0",
+    "async-you": "^2.0.0",
+    "concat-stream": "^2.0.0",
+    "lightning-image-poly": "0.0.10",
+    "lodash": "^4.17.15",
+    "planetproto": "^0.9.0"
   },
   "devDependencies": {},
   "scripts": {
